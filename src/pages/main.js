@@ -6,6 +6,7 @@ import Routes from '../routers/index';
 import menus from '../menu/index';
 import notFound from './notFound';
 import welcome from './welcome';
+import table from './basic/table';
 
 const { SubMenu } = Menu;
 const { Header, Sider, Content } = Layout;
@@ -16,7 +17,7 @@ class Main extends React.Component {
 
     state = {
         collapsed: false,
-        openKeys: [menus[0].index],
+        openKeys: ["dashboard"],
       };
     
       toggle = () => {
@@ -37,19 +38,27 @@ class Main extends React.Component {
       };
 
       onSelect = item => {
-          console.log(item);
-          console.log(this.props)
+          console.log(this.state.openKeys)
         //   this.props.history.push(item.key)
       }
-    
+      renderSubItem = (item, index) => {
+        return item.sub && item.sub.map(subItem =>(
+            <Menu.Item key={subItem.index}>
+                <Link to={subItem.index}>
+                    {subItem.name}
+                </Link>
+            </Menu.Item>
+            
+        ))
+      }
       render() {
         return (
             <Layout className="main-system">
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                     <div className="logo">后台管理系统</div>
                     <Menu
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
+                        defaultSelectedKeys={['dashboard']}
+                        defaultOpenKeys={['dashboard']}
                         openKeys={this.state.openKeys}
                         onSelect={this.onSelect}
                         onOpenChange={this.onOpenChange}
@@ -57,12 +66,22 @@ class Main extends React.Component {
                         theme="dark"
                     >
                         {
-                            menus.map(item=>(
-                                <Menu.Item key={item.index}>
-                                    <Link to={'/'+item.index}>
+                            menus.map((item, index) => (
+                                item.sub&&item.sub.length
+                                ? <SubMenu title={
+                                    <span>
                                         <Icon type={item.icon} />
                                         <span>{item.name}</span>
-                                    </Link>
+                                    </span>
+                                }>
+                                    {this.renderSubItem(item, index)}
+                                  </SubMenu>
+                                : 
+                                <Menu.Item key={item.index}>
+                                        <Link to={item.index}>
+                                            <Icon type={item.icon} />
+                                            <span>{item.name}</span>
+                                        </Link>
                                 </Menu.Item>
                             ))
                         }
@@ -86,7 +105,8 @@ class Main extends React.Component {
                         }}
                     >
                         <Route exact path="/dashboard" component={welcome}></Route>
-                        <Route path="/dashboard/404" component={notFound}></Route>
+                        <Route exact path="/dashboard/404" component={notFound}></Route>
+                        <Route exact path="/basic/table" component={table}></Route>
                     </Content>
                 </Layout>
             </Layout>
