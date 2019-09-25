@@ -1,0 +1,22 @@
+.login-background {
+    background: url("http://47.99.130.140:8888/public/images/login_bg1.jpg");
+    height: 100vh;
+}
+.login-form-box{
+    position: fixed;
+    margin: auto;
+    background: #fff;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    padding: 20px;
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    h3{
+        margin-bottom: 40px;
+    }
+}
