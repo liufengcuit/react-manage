@@ -39,7 +39,7 @@ class Main extends React.Component {
       onSelect = item => {
           console.log(item);
           console.log(this.props)
-        //   this.props.history.push(item.key)
+          this.props.history.push(item.key)
       }
     
       render() {
@@ -59,10 +59,8 @@ class Main extends React.Component {
                         {
                             menus.map(item=>(
                                 <Menu.Item key={item.index}>
-                                    <Link to={'/'+item.index}>
                                         <Icon type={item.icon} />
                                         <span>{item.name}</span>
-                                    </Link>
                                 </Menu.Item>
                             ))
                         }
