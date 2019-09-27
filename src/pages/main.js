@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Icon, Layout } from 'antd';
-import { Route, Switch, Link  } from 'react-router-dom';
+import { Route, Link  } from 'react-router-dom';
 import './main.scss';
 import Routes from '../routers/index';
 import menus from '../menu/index';
@@ -8,12 +8,15 @@ import menus from '../menu/index';
 const { SubMenu } = Menu;
 const { Header, Sider, Content } = Layout;
 
+const rootSubmenuKeys = menus.map(item=>item.key);
+console.log()
+
 class Main extends React.Component {
-    rootSubmenuKeys = ['dashboard', '1'];
+    rootSubmenuKeys = rootSubmenuKeys
 
     state = {
         collapsed: false,
-        openKeys: ["dashboard"],
+        openKeys: [rootSubmenuKeys.shift()],
     };
 
     /**
@@ -30,7 +33,6 @@ class Main extends React.Component {
     };
 
     onOpenChange = openKeys => {
-        console.log(openKeys)
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
             this.setState({ openKeys });
@@ -60,8 +62,8 @@ class Main extends React.Component {
                         }
                     </div>
                     <Menu
-                        defaultSelectedKeys={['dashboard']}
-                        defaultOpenKeys={['dashboard']}
+                        defaultSelectedKeys={this.state.openKeys}
+                        defaultOpenKeys={this.state.openKeys}
                         openKeys={this.state.openKeys}
                         onOpenChange={this.onOpenChange}
                         mode="inline"
@@ -70,7 +72,7 @@ class Main extends React.Component {
                         {
                             menus.map((item, index) => (
                                 item.sub&&item.sub.length
-                                ? <SubMenu key={index} title={
+                                ? <SubMenu key={item.key} title={
                                     <span>
                                         <Icon type={item.icon} />
                                         <span>{item.name}</span>
@@ -79,7 +81,7 @@ class Main extends React.Component {
                                     {this.renderSubItem(item, index)}
                                   </SubMenu>
                                 : 
-                                <Menu.Item key={index}>
+                                <Menu.Item key={item.index}>
                                         <Link to={item.index}>
                                             <Icon type={item.icon} />
                                             <span>{item.name}</span>
