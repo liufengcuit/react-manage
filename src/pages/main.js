@@ -1,66 +1,68 @@
 import React from 'react';
-import { Menu, Icon, Button, Layout } from 'antd';
+import { Menu, Icon, Layout } from 'antd';
 import { Route, Switch, Link  } from 'react-router-dom';
 import './main.scss';
 import Routes from '../routers/index';
 import menus from '../menu/index';
-import notFound from './notFound';
-import welcome from './welcome';
-import table from './basic/table';
 
 const { SubMenu } = Menu;
 const { Header, Sider, Content } = Layout;
 
-console.log(Link)
 class Main extends React.Component {
-    rootSubmenuKeys = ['sub1', 'sub2'];
+    rootSubmenuKeys = ['dashboard', '1'];
 
     state = {
         collapsed: false,
         openKeys: ["dashboard"],
-      };
-    
-      toggle = () => {
-        this.setState({
-          collapsed: !this.state.collapsed,
-        });
-      };
+    };
 
-      onOpenChange = openKeys => {
+    /**
+     * 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。
+     */
+    componentDidMount() {
+        console.log(window.location.href)
+    }
+    
+    toggle = () => {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    };
+
+    onOpenChange = openKeys => {
+        console.log(openKeys)
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-          this.setState({ openKeys });
+            this.setState({ openKeys });
         } else {
-          this.setState({
-            openKeys: latestOpenKey ? [latestOpenKey] : [],
-          });
+            this.setState({
+                openKeys: latestOpenKey ? [latestOpenKey] : [],
+            });
         }
-      };
-
-      onSelect = item => {
-          console.log(this.state.openKeys)
-        //   this.props.history.push(item.key)
-      }
-      renderSubItem = (item, index) => {
+    };
+      
+    renderSubItem = (item,index) => {
         return item.sub && item.sub.map(subItem =>(
             <Menu.Item key={subItem.index}>
                 <Link to={subItem.index}>
                     {subItem.name}
                 </Link>
             </Menu.Item>
-            
         ))
-      }
-      render() {
+    }
+    render() {
         return (
             <Layout className="main-system">
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                    <div className="logo">后台管理系统</div>
+                    <div className="logo">
+                        {
+                            !this.state.collapsed? '后台管理系统': 'Logo'
+                        }
+                    </div>
                     <Menu
                         defaultSelectedKeys={['dashboard']}
                         defaultOpenKeys={['dashboard']}
                         openKeys={this.state.openKeys}
-                        onSelect={this.onSelect}
                         onOpenChange={this.onOpenChange}
                         mode="inline"
                         theme="dark"
@@ -68,7 +70,7 @@ class Main extends React.Component {
                         {
                             menus.map((item, index) => (
                                 item.sub&&item.sub.length
-                                ? <SubMenu title={
+                                ? <SubMenu key={index} title={
                                     <span>
                                         <Icon type={item.icon} />
                                         <span>{item.name}</span>
@@ -77,7 +79,7 @@ class Main extends React.Component {
                                     {this.renderSubItem(item, index)}
                                   </SubMenu>
                                 : 
-                                <Menu.Item key={item.index}>
+                                <Menu.Item key={index}>
                                         <Link to={item.index}>
                                             <Icon type={item.icon} />
                                             <span>{item.name}</span>
@@ -104,14 +106,16 @@ class Main extends React.Component {
                             minHeight: 280,
                         }}
                     >
-                        <Route exact path="/dashboard" component={welcome}></Route>
-                        <Route exact path="/dashboard/404" component={notFound}></Route>
-                        <Route exact path="/basic/table" component={table}></Route>
+                        {
+                            Routes.map(item=>(
+                                <Route key={item.path} exact path={item.path} component={item.component}></Route>
+                            ))
+                        }
                     </Content>
                 </Layout>
             </Layout>
         );
-      }
+    }
 }
 
 export default Main;

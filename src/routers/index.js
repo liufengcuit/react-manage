@@ -1,12 +1,8 @@
 import NotFound from '../pages/notFound';
 import Welcome from '../pages/welcome';
-import Login from '../pages/login';
 import Table from '../pages/basic/table';
 
 const routeConfig = [
-    { path: '/',
-      component: Login
-    },
     { path: '/dashboard',
       component: Welcome
     },
@@ -15,7 +11,7 @@ const routeConfig = [
         component: NotFound
     },
     {
-        path: '/basic/table',
+        path: '/dashboard/basic/table',
         component: Table
     }
 ]

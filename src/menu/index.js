@@ -11,7 +11,7 @@ const menu = [
         sub: [
             {
                 name: '表格',
-                index: "/basic/table"
+                index: "/dashboard/basic/table"
             }
         ]
     }

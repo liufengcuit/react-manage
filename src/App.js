@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch  } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect  } from 'react-router-dom';
 import Login from './pages/login';
 import Main from './pages/main';
 
@@ -16,6 +16,7 @@ class App extends React.Component {
                 <Switch>
                     <Route path="/login" exact component={Login}></Route>
                     <Route path="/dashboard" component={Main}></Route>
+                    <Redirect from="/*" to="/login"></Redirect>
                 </Switch>
              </Router>
         )
