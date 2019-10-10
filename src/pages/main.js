@@ -14,35 +14,31 @@ const rootSubmenuKeys = menus.map(item=>item.key);
 
 class Main extends React.Component {
 
+    rootSubmenuKeys = rootSubmenuKeys;
+
     // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
         let menuObj = window.sessionStorage.getItem('menuObj');
         let menuKeys = menuObj? JSON.parse(menuObj): null;
 
-        // this.setState({
-        //     openKeys: menuKeys? menuKeys.openKeys: [rootSubmenuKeys.shift()],
-        //     selectKeys:  menuKeys? menuKeys.selectKeys: [rootSubmenuKeys.shift() ]
-        // })
+        let defaultKey = rootSubmenuKeys.shift();
 
         this.state = {
             collapsed: false,
-            openKeys: menuKeys? menuKeys.openKeys: [rootSubmenuKeys.shift()],
-            selectKeys: menuKeys? menuKeys.selectKeys: [rootSubmenuKeys.shift() ]
+            openKeys: menuKeys? menuKeys.openKeys: [defaultKey],
+            selectKeys: menuKeys? menuKeys.selectKeys: [defaultKey]
         }
     }
 
-    rootSubmenuKeys = rootSubmenuKeys
 
     /**
      * 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。
      */
     componentDidMount() {
-        
     }
 
     getCurrentMenu({ item, key, keyPath, domEvent }){
-        console.log(this.openKeys)
         window.sessionStorage.setItem("menuObj", JSON.stringify({
             openKeys: this.openKeys,
             selectKeys: [key]
@@ -77,6 +73,7 @@ class Main extends React.Component {
     }
 
     outLogin = () => {
+        window.sessionStorage.removeItem("menuObj");
         this.props.history.push("/login");
     }
     render() {
@@ -128,7 +125,7 @@ class Main extends React.Component {
                             type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                             onClick={this.toggle}
                         />
-                        { this.state.openKeys }
+                        { this.state.selectKeys }
                         <div className="header-box">
                             <div className='header-left'>
                                 <img src="https://gc.xksquare.com/default_icon.png" alt=""/>
