@@ -13,6 +13,7 @@ const menu = [
         sub: [
             {
                 name: '表格',
+                key: 'sub2_1',
                 index: "/dashboard/basic/table"
             }
         ]
@@ -24,6 +25,7 @@ const menu = [
         sub: [
             {
                 name: '密码管理',
+                key: 'sub3_1',
                 index: "/dashboard/setting/user_manage"
             }
         ]
