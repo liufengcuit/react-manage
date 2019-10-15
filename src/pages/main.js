@@ -6,6 +6,9 @@ import { Route, Link  } from 'react-router-dom';
 import './main.scss';
 import Routes from '../routers/index';
 import menus from '../menu/index';
+import store from '../store/index';
+
+
 
 const { SubMenu } = Menu;
 const { Header, Sider, Content } = Layout;
@@ -27,7 +30,8 @@ class Main extends React.Component {
         this.state = {
             collapsed: false,
             openKeys: menuKeys? menuKeys.openKeys: [defaultKey],
-            selectKeys: menuKeys? menuKeys.selectKeys: [defaultKey]
+            selectKeys: menuKeys? menuKeys.selectKeys: [defaultKey],
+            userInfo: store.getState().user?store.getState().user: {}
         }
     }
 
@@ -35,7 +39,12 @@ class Main extends React.Component {
     /**
      * 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。
      */
-    componentDidMount() {
+    componentWillMount() {
+        //判断用户是否登录
+        if(!store.getState().user.username) {
+            const { history } = this.props;
+            history.replace('/login')
+        }
     }
 
     getCurrentMenu({ item, key, keyPath, domEvent }){
@@ -125,7 +134,6 @@ class Main extends React.Component {
                             type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                             onClick={this.toggle}
                         />
-                        { this.state.selectKeys }
                         <div className="header-box">
                             <div className='header-left'>
                                 <img src="https://gc.xksquare.com/default_icon.png" alt=""/>
@@ -137,7 +145,7 @@ class Main extends React.Component {
                                         <Menu.Item key="0" onClick={this.outLogin}>退出</Menu.Item>
                                     </Menu>
                                 )} trigger={['click']}>
-                                    <a className="ant-dropdown-link" href="#"> Admin&nbsp;&nbsp;<Icon type="down" /></a>
+                                    <a className="ant-dropdown-link" href="#"> { this.state.userInfo.username }&nbsp;&nbsp;<Icon type="down" /></a>
                                 </Dropdown>
                             </div>
                         </div>

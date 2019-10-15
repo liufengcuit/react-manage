@@ -2,18 +2,20 @@ import React from 'react';
 import { Form, Icon, Input, Button } from 'antd';
 import "./login.scss";
 
-import test from '../store/index';
-console.log(test);
+import store from '../store/index';
+
 
 class Login extends React.Component  {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                store.dispatch({
+                    type: 'userInfo',
+                    data: values
+                })
                 this.props.history.push("/dashboard");
             }else{
-                console.log(this.props)
                 return false;
             }
         });

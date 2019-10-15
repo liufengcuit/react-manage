@@ -1,19 +1,9 @@
 import { createStore, combineReducers } from 'redux';
-
-
-const todo = (state = [], action) => {
-    console.log(state)
-    console.log(action)
-
-    return state;
-}
-
-
-
+import user from './user';
 
 const store = createStore(
     combineReducers({
-        todo
+        user
     })
 )
 
