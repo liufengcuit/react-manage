@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Icon, Input, Button } from 'antd';
 import "./login.scss";
+import http from '../axios/index'
+import Api from '../services/index'
 
 import store from '../store/index';
 
@@ -10,12 +12,17 @@ class Login extends React.Component  {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                store.dispatch({
-                    type: 'userInfo',
-                    data: values
+                http.post(Api.login, values, false).then(res => {
+                    store.dispatch({
+                        type: 'userInfo',
+                        data: values
+                    })
+                    this.props.history.push("/dashboard");
                 })
-                this.props.history.push("/dashboard");
-            }else{
+                .catch(err => {
+                    console.log("错误结果：", err)
+                })
+            } else {
                 return false;
             }
         });

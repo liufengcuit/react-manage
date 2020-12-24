@@ -1,6 +1,6 @@
 //公共方法
 import CryptoJS from 'crypto-js';
-import {signKey, dataKey, xkMangeVersion, alias} from './publicParams'
+import {signKey, dataKey, alias} from './publicParams'
 
 /**
  * 保存cookie
@@ -35,7 +35,7 @@ export function getCookie(key) {  //获取指定名称的cookie的值
  */
 export function saveSession(key, str) {
     sessionStorage.setItem(key, des3("111111", str));
-    sessionStorage.setItem(alias.catchVersion, xkMangeVersion);
+    sessionStorage.setItem(alias.catchVersion);
 }
 
 /**

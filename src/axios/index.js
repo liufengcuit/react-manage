@@ -1,7 +1,7 @@
 import axios from 'axios'
 import config from './config'
 import service from '../services/index'
-import {des3Decrypt, assembleParams} from '../util/publicMethods'
+import {des3Decrypt, assembleParams} from '../utils/publicMethods'
 
 const http = {
     /**

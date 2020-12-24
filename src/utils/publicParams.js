@@ -2,7 +2,7 @@
  * baseUrl
  * @type {string}
  */
-export const baseUrl = "http://leaofeng.club";
+export const baseUrl = "http://127.0.0.1:7001";
 
 /**
  * storage别名

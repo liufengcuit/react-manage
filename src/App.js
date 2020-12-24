@@ -21,7 +21,4 @@ class App extends React.Component {
     }
 }
 
-console.log(1)
-console.log(2)
-
 export default App;
